@@ -1,3 +1,5 @@
+import { Card } from "../types";
+
 export const cardData: Card[] = [
   {
     id: "student-life-1",

@@ -1,3 +1,4 @@
+import Express from 'express'
 import { PostSearchAvailableCardsResponseBody } from "../contracts/PostSearchAvailableCardsResponseBody";
 import { cardData } from "../data";
 
