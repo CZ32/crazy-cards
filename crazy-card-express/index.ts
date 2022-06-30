@@ -11,4 +11,4 @@ app.listen(port, () => {
     console.log(`Crazy Card Express app listening at http://localhost:${port}`)
 })
 
-app.post('/search/cards', cors(), )
+app.post('/search/cards', () => {} )
