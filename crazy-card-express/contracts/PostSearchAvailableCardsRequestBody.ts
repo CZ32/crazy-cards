@@ -1,4 +1,4 @@
-interface PostSearchAvailableCardsRequestBody  {
+export interface PostSearchAvailableCardsRequestBody  {
     employmentStatus: 'fullTime' | 'student' | 'partTime', //student card only avail for students
     income: {
         currency: 'GBP',

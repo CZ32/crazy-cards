@@ -1,3 +1,3 @@
-interface PostSearchAvailableCardsResponseBody {
+export interface PostSearchAvailableCardsResponseBody {
   cards: Card[];
 }

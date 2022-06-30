@@ -1,4 +1,4 @@
-const cardData: Card[] = [
+export const cardData: Card[] = [
   {
     id: "student-life-1",
     name: "Student Life",
