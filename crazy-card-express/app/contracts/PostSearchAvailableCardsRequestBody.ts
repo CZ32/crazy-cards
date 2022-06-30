@@ -28,14 +28,6 @@ export const PostSearchAvailableCardsRequestBodySchema = joi
       houseNumber: joi.string().required(),
       postCode: joi.string().required(),
     }),
-    dateOfBirth: joi
-      .date()
-      .max("01-01-2003")
-      .iso()
-      .messages({
-        "date.format": `Date format is YYYY-MM-DD`,
-        "date.max": `Age must be 18+`,
-      })
-      .required(),
+    dateOfBirth: joi.string().required(),
   })
   .required();
