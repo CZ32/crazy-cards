@@ -3,7 +3,7 @@ import { filterCardsByRequirement } from "./index";
 
 it("A person who is unemployed return anywhere card", () => {
   const data: PostSearchAvailableCardsRequestBody = {
-    employmentStatus: "partTime",
+    employmentStatus: "unemployed",
     income: {
       currency: "GBP",
       unitAmount: 10000,
@@ -18,7 +18,7 @@ it("A person who is unemployed return anywhere card", () => {
   const filteredCards = filterCardsByRequirement(data);
 
   expect(filteredCards.length).toEqual(1),
-    expect(filteredCards[0].name).toEqual("Anywhere Card");
+  expect(filteredCards[0].name).toEqual("Anywhere Card");
 });
 
 it("A student with income under £10k returns student card and anywhere card", () => {
@@ -58,7 +58,7 @@ it("A student with income under £10k returns student card and anywhere card", (
     ]);
 });
 
-it("Student with income over £16k returns liquid card and anywhere card", () => {
+it("Student with income over £16k returns all cards", () => {
   const data: PostSearchAvailableCardsRequestBody = {
     employmentStatus: "student",
     income: {
@@ -74,7 +74,7 @@ it("Student with income over £16k returns liquid card and anywhere card", () =>
 
   const filteredCards = filterCardsByRequirement(data);
 
-  expect(filteredCards.length).toEqual(2),
+  expect(filteredCards.length).toEqual(3),
     expect(filteredCards).toEqual([
       {
         id: "student-life-1",
