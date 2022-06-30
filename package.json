@@ -1,8 +1,0 @@
-{
-  "dependencies": {
-    "jest": "^28.1.2"
-  },
-  "devDependencies": {
-    "@types/jest": "^28.1.3"
-  }
-}
