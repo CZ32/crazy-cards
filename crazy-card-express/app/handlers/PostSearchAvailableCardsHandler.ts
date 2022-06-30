@@ -1,4 +1,5 @@
-import Express from "express";
+import express from "express";
+import Joi from "joi";
 import {
   PostSearchAvailableCardsRequestBody,
   PostSearchAvailableCardsRequestBodySchema,
@@ -7,16 +8,15 @@ import { PostSearchAvailableCardsResponseBody } from "../contracts/PostSearchAva
 import { filterCardsByRequirement } from "../helpers";
 
 export async function PostSearchAvailableCardsHandler(
-  req: Express.Request,
-  res: Express.Response
-): Promise<PostSearchAvailableCardsResponseBody> {
+  req: express.Request,
+  res: express.Response
+): Promise<void> {
   try {
-    const { data } = req.body;
+    const { body } = req
+    const { value, error } = 
+      PostSearchAvailableCardsRequestBodySchema.validate(body);
 
-    const { value, error } =
-      PostSearchAvailableCardsRequestBodySchema.validate(data);
-
-    if (error) {
+    if(error) {
       throw new Error(error.message);
     }
 
@@ -24,11 +24,15 @@ export async function PostSearchAvailableCardsHandler(
 
     const availableCards = filterCardsByRequirement(parsedData);
 
-    return { cards: availableCards };
+    const result: PostSearchAvailableCardsResponseBody = { 
+        cards: availableCards
+    }
+
+    res.status(200).json(result);
   } catch (e) {
-    res.json({
-      status: "failed",
-      message: e,
+    res.status(400).json({
+      status: e.name,
+      message: e.message
     });
   }
 }
