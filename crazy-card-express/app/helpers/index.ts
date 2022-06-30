@@ -16,6 +16,6 @@ export const filterCardsByRequirement = (
   if (!canUserHaveStudentCard) {
    cards = cards.filter((card) => card.name !== "Student Life");
   }
-
+  
   return cards;
 };
