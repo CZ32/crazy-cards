@@ -1,0 +1,3 @@
+interface PostSearchAvailableCardsResponseBody {
+  cards: Card[];
+}
