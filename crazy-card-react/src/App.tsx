@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Form } from './Form'
-import { Card, AppState } from './types';
+import { AppState } from './types';
 import { useReducer } from 'react';
 
 const initialState: AppState = {
@@ -39,7 +39,12 @@ function App() {
         <h1>Crazy Card App</h1>
         <div className="baseCard">
           {
-            state.screen === 'form' && <Form data={state.formData}/> 
+            state.screen === 'form' && (
+            <Form 
+            formData={state.formData}
+            handleChange={(() => console.log('some'))}
+            /> 
+          )
           }
         </div>
       </header>

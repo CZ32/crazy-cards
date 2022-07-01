@@ -1,34 +1,24 @@
 
 import { FormData } from "../types"
-import Select from 'react-select'
 
-
-const employmentOptions: {
-    value: FormData['employmentStatus'],
-    label: string
-}[] = [
-    { value: 'fullTime', label: 'Full Time' },
-    { value: 'partTime', label: 'Part Time' },
-    { value: 'student', label: 'Student' },
-    { value: 'unemployed', label: 'Unemployed' },
-]
-
-export function Form(data: any) {
-    return (
-        <>
-            <p>Fill out your details and see what card you can get.</p>
-            <div>
-                <form>
-                    <div className="selectContainer">
-                        <label>What's your employment status?</label>
-                        <Select options={employmentOptions}/>
-                    </div>
-                    <div>
-                        <label>What is your income in GBP?</label>
-                        <input type="text" id="incomeAmount" name="incomeAmount" onChange={console.log('do this')} required/>
-                    </div>
-                </form>
-            </div>
-        </>
-    )
+type FormProps = {
+  formData: FormData,
+  handleChange: () => void
+}
+export function Form({formData, handleChange}: FormProps){ 
+  return (
+    <form>
+      <select value={formData.employmentStatus}>
+        <option value="fullTime">fullTime</option>
+        <option value="partTime">partTime</option>
+        <option value="student">student</option>
+        <option value="unemployed">unemployed</option>
+      </select>
+      <input type="number" placeholder="Income Amount" value={formData.income.unitAmount} />
+      <input type="text" placeholder="House Number" value={formData.address.houseNumber} />
+      <input type="text" placeholder="Post Code" value={formData.address.postCode} />
+      <input type="text" placeholder="date of birth" value={formData.dateOfBirth}/>
+      <input type="submit" />
+    </form>
+  );
 }
