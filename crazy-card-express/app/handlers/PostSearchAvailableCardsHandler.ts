@@ -20,9 +20,7 @@ export async function PostSearchAvailableCardsHandler(
     }
 
     const parsedData = value as PostSearchAvailableCardsRequestBody;
-
     const availableCards = filterCardsByRequirement(parsedData);
-
     const result: PostSearchAvailableCardsResponseBody = { 
         cards: availableCards
     }
@@ -31,7 +29,7 @@ export async function PostSearchAvailableCardsHandler(
   } catch (e) {
     res.status(400).json({
       status: "failed",
-      message: e
+      message: e.message
     });
   }
 }
