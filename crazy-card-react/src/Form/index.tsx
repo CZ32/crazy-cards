@@ -7,7 +7,7 @@ type FormProps = {
 }
 export function Form({formData, handleChange}: FormProps){ 
   return (
-    <form>
+    <form className='form'>
       <select value={formData.employmentStatus}>
         <option value="fullTime">fullTime</option>
         <option value="partTime">partTime</option>

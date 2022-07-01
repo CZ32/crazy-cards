@@ -24,15 +24,30 @@ const initialState: AppState = {
 const reducer = (
   state: AppState,
   action: {
-    type: 'string',
-    payload: Partial<AppState>
+    type: string,
+    formData?: Partial<AppState>,
+    cards?: AppState['results']
   }
-): AppState=> {
-  return state
-}
+): AppState => {
+  switch(action.type){
+    case "SET_VALUE":{
+      return {
+        ...state,
+        formData: {
+          ...state.formData,
+          ...(action.formData ? action.formData : state.formData),
+        }
+      }
+    };
+      default:
+        return state;
+    }
+  }
+
 
 function App() {
   const [ state, dispatch] = useReducer(reducer, initialState)
+  
   return (
     <div className="app">
       <header className="appContainer">
@@ -42,7 +57,9 @@ function App() {
             state.screen === 'form' && (
             <Form 
             formData={state.formData}
-            handleChange={(() => console.log('some'))}
+            handleChange={(formData: Partial<FormData>) =>
+              dispatch({ type: "SET_VALUE", formData })
+            }
             /> 
           )
           }
