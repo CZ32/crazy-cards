@@ -12,3 +12,9 @@
   color: 000;
 }
 
+.baseCard{
+  background-color: blueviolet;
+  padding: 1rem 2rem;
+  width: 50%;
+  border-radius: 1rem;
+} 

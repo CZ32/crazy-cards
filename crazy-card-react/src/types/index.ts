@@ -20,6 +20,25 @@ export interface PostSearchAvailableCardsRequestBody {
   datOfBirth: string;
 }
 
+export interface AppState {
+    screen: 'form' | 'pending' | "results" | 'card'
+    formData: FormData,
+    results: undefined | Card[]
+  }
+
+export interface FormData {
+    employmentStatus: undefined | string,
+    income: {
+      currency: "GBP",
+      unitAmount: undefined | number
+    },
+    address: {
+      houseNumber: undefined | string
+      postCode: undefined | string
+    },
+    dateOfBirth: undefined | string
+  }
+
 export interface PostSearchAvailableCardsResponseBody {
   cards: Card[];
 }
