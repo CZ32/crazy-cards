@@ -1,8 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
-import { Form } from "./Form";
-import { AppState, FormData } from "./types";
+import { Form } from "./Components/Form";
+import { AppState, FormData, PostSearchAvailableCardsResponseBody } from "./types";
 import { useReducer } from "react";
+import { handlePostSearchAvailableCards } from "./api";
+import { PostSearchAvailableCardsRequestBodySchema } from "./schema";
 
 const initialState: AppState = {
   screen: "form",
@@ -39,6 +41,12 @@ const reducer = (
         },
       };
     }
+    case "SET_RESULT" : {
+      return {
+        ...state,
+        results: action.cards
+      };
+    }
     default:
       return state;
   }
@@ -46,6 +54,25 @@ const reducer = (
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleSubmit = async () => {
+    console.log(state.formData)
+    const { value: validatedFormData, error } =
+      PostSearchAvailableCardsRequestBodySchema.validate(state.formData, {
+        abortEarly: false,
+      });
+  
+    console.log(validatedFormData.employmentStatus)
+    if (error) {
+      console.log(error);
+      return undefined;
+    }
+  
+    const result = await handlePostSearchAvailableCards(validatedFormData)
+
+    dispatch({ type: "SET_RESULT", cards: result.cards })
+  };
+  
 
   return (
     <div className="app">
@@ -58,6 +85,7 @@ function App() {
               onChange={(formData: Partial<FormData>) =>
                 dispatch({ type: "SET_VALUE", formData })
               }
+              onSubmit={handleSubmit}
             />
           )}
         </div>

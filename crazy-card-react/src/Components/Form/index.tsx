@@ -1,9 +1,10 @@
-import { ChangeEvent } from "react";
-import { FormData } from "../types";
+import { ChangeEvent, FormEvent, FormEventHandler } from "react";
+import { FormData } from "../../types";
 
 type FormProps = {
   formData: FormData;
   onChange: (formData: Partial<FormData>) => void;
+  onSubmit: () => void;
 };
 
 type FormField =
@@ -13,12 +14,14 @@ type FormField =
   | "postCode"
   | "dateOfBirth";
 
-export function Form({ formData, onChange }: FormProps) {
+
+export function Form({ formData, onChange, onSubmit }: FormProps) {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     field: FormField
   ) => {
     const value = e.target.value;
+    console.log(value)
 
     if (field === "houseNumber" || field === "postCode") {
       return onChange({
@@ -44,8 +47,13 @@ export function Form({ formData, onChange }: FormProps) {
     });
   };
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    onSubmit()    
+  }
+
   return (
-    <form className="form">
+    <form className="form" onSubmit={(e) => handleSubmit(e)}>
       <label htmlFor="employmentStatus">Employment Status</label>
       <select
         name="employmentStatus"
