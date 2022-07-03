@@ -1,69 +1,66 @@
-import logo from './logo.svg';
-import './App.css';
-import { Form } from './Form'
-import { AppState, FormData } from './types';
-import { useReducer } from 'react';
+import logo from "./logo.svg";
+import "./App.css";
+import { Form } from "./Form";
+import { AppState, FormData } from "./types";
+import { useReducer } from "react";
 
 const initialState: AppState = {
-  screen: 'form',
-  formData:  {
-    employmentStatus: undefined ,
+  screen: "form",
+  formData: {
+    employmentStatus: undefined,
     income: {
       currency: "GBP",
-      unitAmount: undefined 
+      unitAmount: undefined,
     },
     address: {
       houseNumber: undefined,
-      postCode: undefined
+      postCode: undefined,
     },
-    dateOfBirth: undefined
+    dateOfBirth: undefined,
   },
-  results: undefined
-}
+  results: undefined,
+};
 
 const reducer = (
   state: AppState,
   action: {
-    type: string,
-    formData?: Partial<FormData>,
-    cards?: AppState['results']
+    type: string;
+    formData?: Partial<FormData>;
+    cards?: AppState["results"];
   }
 ): AppState => {
   console.log(state)
-  switch(action.type){
-    case "SET_VALUE":{
+  switch (action.type) {
+    case "SET_VALUE": {
       return {
         ...state,
         formData: {
           ...state.formData,
-          ...(action.formData ? action.formData : state.formData),
-        }
-      }
-    };
-      default:
-        return state;
+          ...action.formData,
+        },
+      };
     }
+    default:
+      return state;
   }
+};
 
-  
-  function App() {
-    const [ state, dispatch] = useReducer(reducer, initialState)
-    
+function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   return (
     <div className="app">
       <header className="appContainer">
         <h1>Crazy Card App</h1>
         <div className="baseCard">
-          {
-            state.screen === 'form' && (
-            <Form 
-            formData={state.formData}
-            onChange={(formData: Partial<FormData>) =>
-              dispatch({ type: "SET_VALUE", formData })
-            }
-            /> 
-          )
-          }
+          {state.screen === "form" && (
+            <Form
+              formData={state.formData}
+              onChange={(formData: Partial<FormData>) =>
+                dispatch({ type: "SET_VALUE", formData })
+              }
+            />
+          )}
         </div>
       </header>
     </div>

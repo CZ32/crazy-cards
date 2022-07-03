@@ -17,10 +17,31 @@ export function Form({ formData, onChange }: FormProps) {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     field: FormField
-  ) =>
-    onChange({
+  ) => {
+    const value = e.target.value
+    
+    if(field === "houseNumber" || field === "postCode"){
+      return onChange({
+        address: {
+          houseNumber: field === 'houseNumber' ? value : formData.address.houseNumber,
+          postCode: field === 'postCode' ? value :  formData.address.postCode
+        }
+      })
+    }
+
+    if(field === "incomeUnitAmount") {
+      return onChange({
+        income: {
+          currency: formData.income.currency,
+          unitAmount: Number(value)
+        }
+      })
+    }
+
+    return onChange({
       [field]: e.target.value,
     });
+  }
 
   return (
     <form className="form">
