@@ -1,23 +1,59 @@
-
-import { FormData } from "../types"
+import { ChangeEvent } from "react";
+import { FormData } from "../types";
 
 type FormProps = {
-  formData: FormData,
-  handleChange: () => void
-}
-export function Form({formData, handleChange}: FormProps){ 
+  formData: FormData;
+  onChange: (formData: Partial<FormData>) => void;
+};
+
+type FormField =
+  | "employmentStatus"
+  | "incomeUnitAmount"
+  | "houseNumber"
+  | "postCode"
+  | "dateOfBirth";
+
+export function Form({ formData, onChange }: FormProps) {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
+    field: FormField
+  ) =>
+    onChange({
+      [field]: e.target.value,
+    });
+
   return (
-    <form className='form'>
-      <select value={formData.employmentStatus}>
-        <option value="fullTime">fullTime</option>
-        <option value="partTime">partTime</option>
-        <option value="student">student</option>
-        <option value="unemployed">unemployed</option>
+    <form className="form">
+      <select value={formData.employmentStatus} onChange={(e) => handleChange(e, 'employmentStatus')} >
+        <option value="fullTime">Full Time</option>
+        <option value="partTime">Part Time</option>
+        <option value="student">Student</option>
+        <option value="unemployed">Unemployed</option>
       </select>
-      <input type="number" placeholder="Income Amount" value={formData.income.unitAmount} />
-      <input type="text" placeholder="House Number" value={formData.address.houseNumber} />
-      <input type="text" placeholder="Post Code" value={formData.address.postCode} />
-      <input type="text" placeholder="date of birth" value={formData.dateOfBirth}/>
+      <input
+        type="number"
+        placeholder="Income Amount"
+        value={formData.income.unitAmount}
+        onChange={(e) => handleChange(e, 'incomeUnitAmount')}
+      />
+      <input
+        type="text"
+        placeholder="House Number"
+        value={formData.address.houseNumber}
+        onChange={(e) => handleChange(e, 'houseNumber')}
+      />
+      <input
+        type="text"
+        placeholder="Post Code"
+        value={formData.address.postCode}
+        onChange={(e) => handleChange(e, 'postCode')}
+      />
+      <input
+        type="text"
+        placeholder="date of birth"
+        value={formData.dateOfBirth}
+        onChange={(e) => handleChange(e, 'dateOfBirth')}
+      />
       <input type="submit" />
     </form>
   );

@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { Form } from './Form'
-import { AppState } from './types';
+import { AppState, FormData } from './types';
 import { useReducer } from 'react';
 
 const initialState: AppState = {
@@ -25,10 +25,11 @@ const reducer = (
   state: AppState,
   action: {
     type: string,
-    formData?: Partial<AppState>,
+    formData?: Partial<FormData>,
     cards?: AppState['results']
   }
 ): AppState => {
+  console.log(state)
   switch(action.type){
     case "SET_VALUE":{
       return {
@@ -44,10 +45,10 @@ const reducer = (
     }
   }
 
-
-function App() {
-  const [ state, dispatch] = useReducer(reducer, initialState)
   
+  function App() {
+    const [ state, dispatch] = useReducer(reducer, initialState)
+    
   return (
     <div className="app">
       <header className="appContainer">
@@ -57,7 +58,7 @@ function App() {
             state.screen === 'form' && (
             <Form 
             formData={state.formData}
-            handleChange={(formData: Partial<FormData>) =>
+            onChange={(formData: Partial<FormData>) =>
               dispatch({ type: "SET_VALUE", formData })
             }
             /> 
