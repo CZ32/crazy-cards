@@ -29,7 +29,6 @@ const reducer = (
     cards?: AppState["results"];
   }
 ): AppState => {
-  console.log(state)
   switch (action.type) {
     case "SET_VALUE": {
       return {
