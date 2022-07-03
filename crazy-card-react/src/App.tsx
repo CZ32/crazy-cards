@@ -62,9 +62,7 @@ function App() {
         abortEarly: false,
       });
   
-    console.log(validatedFormData.employmentStatus)
     if (error) {
-      console.log(error);
       return undefined;
     }
   
