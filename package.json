@@ -1,0 +1,6 @@
+{
+    "scripts": {
+        "install project": "cd crazy-card-api && yarn && cd ../crazy-card-react && yarn && cd ../",
+        "run project": "cd crazy-card-api && yarn start && cd ../crazy-card-react && yarn start && ../"
+    }
+}
