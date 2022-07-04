@@ -15,11 +15,10 @@ export function CrazyCard({
         </p>
         <p>Apr: {card.apr} %</p>
         <p>
-          Balance Transfer Offer Duration:{" "}
-          {card.balanceTransferOfferMonthDuration}
+          {`Balance Transfer Offer Duration: ${card.balanceTransferOfferMonthDuration} Months`}
         </p>
-        <p>Purchase Offer Duration: {card.purchaseOfferMonthDuration}</p>
-        <p>Credit Available: {card.creditLimit}</p>
+        <p>{`Purchase Offer Duration: ${card.purchaseOfferMonthDuration} months`}</p>
+        <p>{`Credit Available: £${card.creditLimit}.00`}</p>
         <button type="button" onClick={onGoBack} className="submitButton">
           Go Back
         </button>

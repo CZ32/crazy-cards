@@ -50,17 +50,17 @@ button {
   width: 100%;
 }
 
+.crazyCardContainer > ul li {
+  list-style: none;
+}
+
+.crazyCardContainer > ul {
+  padding-left: 0;
+}
+
 .crazyCardContainer {
   display: flex;
   flex-direction: column;
-  border: 2px black;
-  border-radius: 4px;
+  padding-left: 0;
 }
 
-.crazyCardContainer  > div {
-  margin-bottom: 0rem;  
-}
-
-.crazyCardContainer ul {
-  list-style: none;
-}

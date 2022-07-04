@@ -11,7 +11,7 @@ const calculateTotalCredit = (cards: Card[]) =>
 export function AvailableCardResults({
   cards,
   onGoBack,
-  handleVisitCardDetails
+  handleVisitCardDetails,
 }: {
   cards: Card[];
   onGoBack: () => void;
@@ -40,7 +40,7 @@ export function AvailableCardResults({
   };
 
   return (
-    <>
+    <div className="crazyCardContainer">
       <p>Total Selected Credit Limit: £{totalCreditSelected}.00</p>
       <ul>
         {cards.map((card: Card, index: number) => (
@@ -58,7 +58,9 @@ export function AvailableCardResults({
                   checked={checkedSelectedCards[index]}
                   onChange={() => handleChange(index)}
                 />
-                <button onClick={() => handleVisitCardDetails(card.id)}>{`Check ${card.name} details`}</button>
+                <button
+                  onClick={() => handleVisitCardDetails(card.id)}
+                >{`Check ${card.name} details`}</button>
               </div>
             </div>
           </li>
@@ -67,6 +69,6 @@ export function AvailableCardResults({
       <button type="button" onClick={onGoBack} className="submitButton">
         Go Back
       </button>
-    </>
+    </div>
   );
 }
