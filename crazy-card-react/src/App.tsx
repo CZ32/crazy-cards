@@ -1,9 +1,11 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { Form } from "./Components/Form";
-import { PendingScreen } from "./Components/PendingScreen";
-import { AppState, FormData, PostSearchAvailableCardsResponseBody } from "./types";
-import { Suspense, useEffect, useReducer, useState } from "react";
+import {
+  AppState,
+  FormData,
+  PostSearchAvailableCardsResponseBody,
+} from "./types";
+import { useEffect, useReducer, useState } from "react";
 import { handlePostSearchAvailableCards } from "./api";
 import { PostSearchAvailableCardsRequestBodySchema } from "./schema";
 import { AvailableCardResults } from "./Components/AvailableCardResultScreen";
@@ -43,16 +45,22 @@ const reducer = (
         },
       };
     }
-    case "SET_RESULT" : {
+    case "SET_RESULT": {
       return {
         ...state,
-        availableCards: action.cards
+        availableCards: action.cards,
       };
     }
-    case "SET_RESULT_SCREEN" : {
+    case "GO_BACK_TO_FORM": {
       return {
         ...state,
-        screen: "results"
+        screen: "form",
+      };
+    }
+    case "SET_RESULT_SCREEN": {
+      return {
+        ...state,
+        screen: "results",
       };
     }
     default:
@@ -64,45 +72,43 @@ const validatedFormData = (formData: FormData) => {
   return PostSearchAvailableCardsRequestBodySchema.validate(formData, {
     abortEarly: false,
   });
-}
+};
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isSubmittable, setIsSubmittable] = useState(false)
+  const [isSubmittable, setIsSubmittable] = useState(false);
 
   useEffect(() => {
-    const { error } = validatedFormData(state.formData)
-    if(!error){
-      setIsSubmittable(true)
+    const { error } = validatedFormData(state.formData);
+    if (!error) {
+      setIsSubmittable(true);
     } else {
-      setIsSubmittable(false)
-    } 
-  }, [state.formData])
+      setIsSubmittable(false);
+    }
+  }, [state.formData]);
 
   useEffect(() => {
-    dispatch({ type: "SET_RESULT_SCREEN" })
-  }, [state.availableCards])
-
+    if (state.screen === "form" && state.availableCards)
+      dispatch({ type: "SET_RESULT_SCREEN" });
+  }, [state.availableCards]);
 
   const handleSubmit = async () => {
-    try{
-      const { value: validatedData, error } = validatedFormData(state.formData)
-      
+    try {
+      const { value: validatedData, error } = validatedFormData(state.formData);
+
       if (error) {
-        console.debug(error)
-        throw new Error(error.message)
-      } 
+        console.debug(error);
+        throw new Error(error.message);
+      }
 
-      const { cards } = await handlePostSearchAvailableCards(validatedData)
-      
-      console.log(cards)
+      const { cards } = await handlePostSearchAvailableCards(validatedData);
 
-      dispatch({ type: "SET_RESULT", cards })
-    }catch(e){
-      console.error(e)
+      dispatch({ type: "SET_RESULT", cards });
+    } catch (e) {
+      console.error(e);
     }
   };
-  
+
   return (
     <div className="app">
       <header className="appContainer">
@@ -120,7 +126,10 @@ function App() {
           )}
 
           {state.screen === "results" && state.availableCards && (
-                <AvailableCardResults cards={state.availableCards}/>
+            <AvailableCardResults 
+            cards={state.availableCards}
+            onGoBack={() => dispatch({ type: "GO_BACK_TO_FORM" })}
+            />
           )}
         </div>
       </header>

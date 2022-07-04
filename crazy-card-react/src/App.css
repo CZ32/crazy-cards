@@ -19,7 +19,6 @@
   border-radius: 1rem;
 } 
 
-
 .form{
   display: flex;
   flex-direction: column;
@@ -37,6 +36,7 @@
 }
 
 .form select {
+  padding-left: 1rem;
   height: 2rem;
   border-radius: 5px;
 }
@@ -46,3 +46,21 @@
   height: 2rem;
 }
 
+button {
+  width: 100%;
+}
+
+.crazyCardContainer {
+  display: flex;
+  flex-direction: column;
+  border: 2px black;
+  border-radius: 4px;
+}
+
+.crazyCardContainer  > div {
+  margin-bottom: 0rem;  
+}
+
+.crazyCardContainer ul {
+  list-style: none;
+}
