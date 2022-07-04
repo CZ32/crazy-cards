@@ -6,7 +6,7 @@
   "author": "Cengizhan Ziyaeddin",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node index.ts",
+    "start": "ts-node index.ts",
     "test": "jest"
   },
   "dependencies": {
