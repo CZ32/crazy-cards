@@ -1,10 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
 import { Form } from "./Components/Form";
+import { PendingScreen } from "./Components/PendingScreen";
 import { AppState, FormData, PostSearchAvailableCardsResponseBody } from "./types";
-import { useReducer } from "react";
+import { Suspense, useEffect, useReducer, useState } from "react";
 import { handlePostSearchAvailableCards } from "./api";
 import { PostSearchAvailableCardsRequestBodySchema } from "./schema";
+import { AvailableCardResults } from "./Components/AvailableCardResultScreen";
 
 const initialState: AppState = {
   screen: "form",
@@ -20,7 +22,7 @@ const initialState: AppState = {
     },
     dateOfBirth: undefined,
   },
-  results: undefined,
+  availableCards: undefined,
 };
 
 const reducer = (
@@ -28,7 +30,7 @@ const reducer = (
   action: {
     type: string;
     formData?: Partial<FormData>;
-    cards?: AppState["results"];
+    cards?: AppState["availableCards"];
   }
 ): AppState => {
   switch (action.type) {
@@ -44,7 +46,13 @@ const reducer = (
     case "SET_RESULT" : {
       return {
         ...state,
-        results: action.cards
+        availableCards: action.cards
+      };
+    }
+    case "SET_RESULT_SCREEN" : {
+      return {
+        ...state,
+        screen: "results"
       };
     }
     default:
@@ -52,26 +60,49 @@ const reducer = (
   }
 };
 
+const validatedFormData = (formData: FormData) => {
+  return PostSearchAvailableCardsRequestBodySchema.validate(formData, {
+    abortEarly: false,
+  });
+}
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const [isSubmittable, setIsSubmittable] = useState(false)
+
+  useEffect(() => {
+    const { error } = validatedFormData(state.formData)
+    if(!error){
+      setIsSubmittable(true)
+    } else {
+      setIsSubmittable(false)
+    } 
+  }, [state.formData])
+
+  useEffect(() => {
+    dispatch({ type: "SET_RESULT_SCREEN" })
+  }, [state.availableCards])
+
 
   const handleSubmit = async () => {
-    console.log(state.formData)
-    const { value: validatedFormData, error } =
-      PostSearchAvailableCardsRequestBodySchema.validate(state.formData, {
-        abortEarly: false,
-      });
-  
-    if (error) {
-      return undefined;
-    }
-  
-    const result = await handlePostSearchAvailableCards(validatedFormData)
+    try{
+      const { value: validatedData, error } = validatedFormData(state.formData)
+      
+      if (error) {
+        console.debug(error)
+        throw new Error(error.message)
+      } 
 
-    dispatch({ type: "SET_RESULT", cards: result.cards })
+      const { cards } = await handlePostSearchAvailableCards(validatedData)
+      
+      console.log(cards)
+
+      dispatch({ type: "SET_RESULT", cards })
+    }catch(e){
+      console.error(e)
+    }
   };
   
-
   return (
     <div className="app">
       <header className="appContainer">
@@ -84,7 +115,12 @@ function App() {
                 dispatch({ type: "SET_VALUE", formData })
               }
               onSubmit={handleSubmit}
+              isSubmittable={isSubmittable}
             />
+          )}
+
+          {state.screen === "results" && state.availableCards && (
+                <AvailableCardResults cards={state.availableCards}/>
           )}
         </div>
       </header>

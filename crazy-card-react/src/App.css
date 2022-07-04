@@ -25,3 +25,24 @@
   flex-direction: column;
 }
 
+.form > * {
+  margin-bottom: 0.5rem;
+}
+
+.form input {
+  line-height: 2rem;
+  padding-left: 1rem;
+  border-radius: 5px;
+  outline: none;
+}
+
+.form select {
+  height: 2rem;
+  border-radius: 5px;
+}
+
+.submitButton {
+  margin-top: 2rem;
+  height: 2rem;
+}
+

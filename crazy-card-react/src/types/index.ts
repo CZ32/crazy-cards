@@ -23,7 +23,7 @@ export interface PostSearchAvailableCardsRequestBody {
 export interface AppState {
     screen: 'form' | 'pending' | "results" | 'card'
     formData: FormData,
-    results: undefined | Card[]
+    availableCards: undefined | Card[]
   }
 
 export interface FormData {

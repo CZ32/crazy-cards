@@ -5,6 +5,7 @@ type FormProps = {
   formData: FormData;
   onChange: (formData: Partial<FormData>) => void;
   onSubmit: () => void;
+  isSubmittable: boolean;
 };
 
 type FormField =
@@ -14,14 +15,18 @@ type FormField =
   | "postCode"
   | "dateOfBirth";
 
-
-export function Form({ formData, onChange, onSubmit }: FormProps) {
+export function Form({
+  formData,
+  isSubmittable,
+  onChange,
+  onSubmit,
+}: FormProps) {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>,
     field: FormField
   ) => {
     const value = e.target.value;
-    console.log(value)
+    console.log(value);
 
     if (field === "houseNumber" || field === "postCode") {
       return onChange({
@@ -48,9 +53,10 @@ export function Form({ formData, onChange, onSubmit }: FormProps) {
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    onSubmit()    
-  }
+    e.preventDefault();
+    console.log("hey");
+    onSubmit();
+  };
 
   return (
     <form className="form" onSubmit={(e) => handleSubmit(e)}>
@@ -59,7 +65,9 @@ export function Form({ formData, onChange, onSubmit }: FormProps) {
         name="employmentStatus"
         value={formData.employmentStatus}
         onChange={(e) => handleChange(e, "employmentStatus")}
+        defaultValue="initialValue"
       >
+        <option value="initialValue">Choose here</option>
         <option value="fullTime">Full Time</option>
         <option value="partTime">Part Time</option>
         <option value="student">Student</option>
@@ -97,7 +105,7 @@ export function Form({ formData, onChange, onSubmit }: FormProps) {
         value={formData.dateOfBirth}
         onChange={(e) => handleChange(e, "dateOfBirth")}
       />
-      <input type="submit" />
+      <input type="submit" disabled={!isSubmittable} className="submitButton" />
     </form>
   );
 }
