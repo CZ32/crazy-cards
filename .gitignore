@@ -1,2 +1,3 @@
 node_modules/
-/yarn.lock
+./crazy-card-api/yarn.lock/
+./crazy-card-react/yarn.lock/
