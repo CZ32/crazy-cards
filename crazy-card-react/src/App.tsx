@@ -1,14 +1,11 @@
 import "./App.css";
 import { Form } from "./Components/Form";
-import {
-  AppState,
-  FormData,
-  PostSearchAvailableCardsResponseBody,
-} from "./types";
+import { AppState, Card, FormData } from "./types";
 import { useEffect, useReducer, useState } from "react";
 import { handlePostSearchAvailableCards } from "./api";
 import { PostSearchAvailableCardsRequestBodySchema } from "./schema";
-import { AvailableCardResults } from "./Components/AvailableCardResultScreen";
+import { CrazyCard } from "./Components/CrazyCard";
+import { AvailableCardResults } from "./Components/AvailableCardResults";
 
 const initialState: AppState = {
   screen: "form",
@@ -57,12 +54,25 @@ const reducer = (
         screen: "form",
       };
     }
+    case "GO_BACK_TO_RESULTS": {
+      return {
+        ...state,
+        screen: "results",
+      };
+    }
     case "SET_RESULT_SCREEN": {
       return {
         ...state,
         screen: "results",
       };
     }
+    case "SET_CRAZY_CARD_SCREEN": {
+      return {
+        ...state,
+        screen: "card",
+      };
+    }
+
     default:
       return state;
   }
@@ -74,9 +84,17 @@ const validatedFormData = (formData: FormData) => {
   });
 };
 
+const filterSelectedCard = (cards: Card[], cardId: string) => {
+  console.log({ cards, cardId });
+  return cards.filter((card) => card.id === cardId)[0];
+};
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [isSubmittable, setIsSubmittable] = useState(false);
+  const [isSubmittable, setIsSubmittable] = useState<boolean>(false);
+  const [cardToVisitId, setCardToVisitId] = useState<undefined | string>(
+    undefined
+  );
 
   useEffect(() => {
     const { error } = validatedFormData(state.formData);
@@ -91,6 +109,12 @@ function App() {
     if (state.screen === "form" && state.availableCards)
       dispatch({ type: "SET_RESULT_SCREEN" });
   }, [state.availableCards]);
+
+  useEffect(() => {
+    if (cardToVisitId) {
+      dispatch({ type: "SET_CRAZY_CARD_SCREEN" });
+    }
+  }, [cardToVisitId]);
 
   const handleSubmit = async () => {
     try {
@@ -107,6 +131,10 @@ function App() {
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleVisitCardDetails = (cardToVisitId: string) => {
+    setCardToVisitId(cardToVisitId);
   };
 
   return (
@@ -126,9 +154,17 @@ function App() {
           )}
 
           {state.screen === "results" && state.availableCards && (
-            <AvailableCardResults 
-            cards={state.availableCards}
-            onGoBack={() => dispatch({ type: "GO_BACK_TO_FORM" })}
+            <AvailableCardResults
+              cards={state.availableCards}
+              onGoBack={() => dispatch({ type: "GO_BACK_TO_FORM" })}
+              handleVisitCardDetails={handleVisitCardDetails}
+            />
+          )}
+
+          {state.screen === "card" && state.availableCards && cardToVisitId && (
+            <CrazyCard
+              card={filterSelectedCard(state.availableCards, cardToVisitId)}
+              onGoBack={() => dispatch({ type: "GO_BACK_TO_RESULTS" })}
             />
           )}
         </div>
