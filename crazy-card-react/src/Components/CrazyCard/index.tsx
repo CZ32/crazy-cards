@@ -13,7 +13,7 @@ export function CrazyCard({
         <p>
           <strong>{card.name}</strong>
         </p>
-        <p>Apr: {card.apr}</p>
+        <p>Apr: {card.apr} %</p>
         <p>
           Balance Transfer Offer Duration:{" "}
           {card.balanceTransferOfferMonthDuration}

@@ -85,7 +85,6 @@ const validatedFormData = (formData: FormData) => {
 };
 
 const filterSelectedCard = (cards: Card[], cardId: string) => {
-  console.log({ cards, cardId });
   return cards.filter((card) => card.id === cardId)[0];
 };
 
@@ -110,12 +109,6 @@ function App() {
       dispatch({ type: "SET_RESULT_SCREEN" });
   }, [state.availableCards]);
 
-  useEffect(() => {
-    if (cardToVisitId) {
-      dispatch({ type: "SET_CRAZY_CARD_SCREEN" });
-    }
-  }, [cardToVisitId]);
-
   const handleSubmit = async () => {
     try {
       const { value: validatedData, error } = validatedFormData(state.formData);
@@ -135,6 +128,7 @@ function App() {
 
   const handleVisitCardDetails = (cardToVisitId: string) => {
     setCardToVisitId(cardToVisitId);
+    dispatch({ type: "SET_CRAZY_CARD_SCREEN" });
   };
 
   return (

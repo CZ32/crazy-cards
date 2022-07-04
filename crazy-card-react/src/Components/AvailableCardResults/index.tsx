@@ -24,8 +24,6 @@ export function AvailableCardResults({
     calculateTotalCredit(checkedSelectedCards)
   );
 
-  useEffect(() => console.log("hey"));
-
   useEffect(() => {
     const cardsToSum = cards.filter(
       (card: Card, index: number) => checkedSelectedCards[index] === true

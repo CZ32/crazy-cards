@@ -15,7 +15,6 @@ export async function PostSearchAvailableCardsHandler(
     const { value, error } = 
       PostSearchAvailableCardsRequestBodySchema.validate(body.data);
 
-    console.log(body)
     if(error) {
       throw new Error(error.message);
     }
